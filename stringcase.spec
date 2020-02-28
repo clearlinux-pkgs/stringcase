@@ -4,12 +4,13 @@
 #
 Name     : stringcase
 Version  : 1.2.0
-Release  : 1
+Release  : 2
 URL      : https://files.pythonhosted.org/packages/f3/1f/1241aa3d66e8dc1612427b17885f5fcd9c9ee3079fc0d28e9a3aeeb36fa3/stringcase-1.2.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/f3/1f/1241aa3d66e8dc1612427b17885f5fcd9c9ee3079fc0d28e9a3aeeb36fa3/stringcase-1.2.0.tar.gz
 Summary  : String case converter.
 Group    : Development/Tools
 License  : MIT
+Requires: stringcase-license = %{version}-%{release}
 Requires: stringcase-python = %{version}-%{release}
 Requires: stringcase-python3 = %{version}-%{release}
 BuildRequires : buildreq-distutils3
@@ -17,7 +18,77 @@ BuildRequires : buildreq-distutils3
 %description
 stringcase
 ==========
+
 Convert string cases between camel case, pascal case, snake case etc...
+
+|build_status_badge| |coverage_badge| |pypi_version_badge|
+
+Usage
+-----
+
+.. code:: python
+
+    import stringcase
+    stringcase.camelcase('foo_bar_baz') # => "fooBarBaz"
+    stringcase.camelcase('FooBarBaz') # => "fooBarBaz"
+    stringcase.capitalcase('foo_bar_baz') # => "Foo_bar_baz"
+    stringcase.capitalcase('FooBarBaz') # => "FooBarBaz"
+    stringcase.constcase('foo_bar_baz') # => "FOO_BAR_BAZ"
+    stringcase.constcase('FooBarBaz') # => "_FOO_BAR_BAZ"
+    stringcase.lowercase('foo_bar_baz') # => "foo_bar_baz"
+    stringcase.lowercase('FooBarBaz') # => "foobarbaz"
+    stringcase.pascalcase('foo_bar_baz') # => "FooBarBaz"
+    stringcase.pascalcase('FooBarBaz') # => "FooBarBaz"
+    stringcase.pathcase('foo_bar_baz') # => "foo/bar/baz"
+    stringcase.pathcase('FooBarBaz') # => "/foo/bar/baz"
+    stringcase.sentencecase('foo_bar_baz') # => "Foo bar baz"
+    stringcase.sentencecase('FooBarBaz') # => "Foo bar baz"
+    stringcase.snakecase('foo_bar_baz') # => "foo_bar_baz"
+    stringcase.snakecase('FooBarBaz') # => "_foo_bar_baz"
+    stringcase.spinalcase('foo_bar_baz') # => "foo-bar-baz"
+    stringcase.spinalcase('FooBarBaz') # => "-foo-bar-baz"
+    stringcase.titlecase('foo_bar_baz') # => "Foo Bar Baz"
+    stringcase.titlecase('FooBarBaz') # => " Foo Bar Baz"
+    stringcase.trimcase('foo_bar_baz') # => "foo_bar_baz"
+    stringcase.trimcase('FooBarBaz') # => "FooBarBaz"
+    stringcase.uppercase('foo_bar_baz') # => "FOO_BAR_BAZ"
+    stringcase.uppercase('FooBarBaz') # => "FOOBARBAZ"
+    stringcase.alphanumcase('_Foo., Bar') # =>'FooBar'
+    stringcase.alphanumcase('Foo_123 Bar!') # =>'Foo123Bar'
+
+
+Install
+-------
+
+::
+
+    $ pip install stringcase
+
+License
+-------
+
+This software is released under the `MIT License <https://github.com/okunishinishi/python-stringcase/blob/master/LICENSE>`__.
+
+
+Author
+------
+
+-  `Taka Okunishi <http://okunishitaka.com>`__
+
+.. |build_status_badge| image:: http://img.shields.io/travis/okunishinishi/python-stringcase.svg?style=flat
+   :target: http://travis-ci.org/okunishinishi/python-stringcase
+.. |coverage_badge| image:: http://img.shields.io/coveralls/apeman-repo/apeman-task-contrib-coz.svg?style=flat
+   :target: https://coveralls.io/github/apeman-repo/apeman-task-contrib-coz
+.. |pypi_version_badge| image:: https://img.shields.io/pypi/v/stringcase.svg
+   :target: https://pypi.python.org/pypi/stringcase
+
+%package license
+Summary: license components for the stringcase package.
+Group: Default
+
+%description license
+license components for the stringcase package.
+
 
 %package python
 Summary: python components for the stringcase package.
@@ -32,6 +103,7 @@ python components for the stringcase package.
 Summary: python3 components for the stringcase package.
 Group: Default
 Requires: python3-core
+Provides: pypi(stringcase)
 
 %description python3
 python3 components for the stringcase package.
@@ -46,7 +118,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582832639
+export SOURCE_DATE_EPOCH=1582915100
 # -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
@@ -62,6 +134,8 @@ python3 setup.py build
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/stringcase
+cp %{_builddir}/stringcase-1.2.0/LICENSE %{buildroot}/usr/share/package-licenses/stringcase/fb9c74bbbb8d04509b48fb718b3bd21ee0997d4f
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -69,6 +143,10 @@ echo ----[ mark ]----
 
 %files
 %defattr(-,root,root,-)
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/stringcase/fb9c74bbbb8d04509b48fb718b3bd21ee0997d4f
 
 %files python
 %defattr(-,root,root,-)

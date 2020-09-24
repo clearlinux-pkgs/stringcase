@@ -4,7 +4,7 @@
 #
 Name     : stringcase
 Version  : 1.2.0
-Release  : 3
+Release  : 4
 URL      : https://files.pythonhosted.org/packages/f3/1f/1241aa3d66e8dc1612427b17885f5fcd9c9ee3079fc0d28e9a3aeeb36fa3/stringcase-1.2.0.tar.gz
 Source0  : https://files.pythonhosted.org/packages/f3/1f/1241aa3d66e8dc1612427b17885f5fcd9c9ee3079fc0d28e9a3aeeb36fa3/stringcase-1.2.0.tar.gz
 Summary  : String case converter.
